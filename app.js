@@ -29,7 +29,7 @@ const initializeDbAndServer = async () => {
 
 initializeDbAndServer();
 
-const hasPriorityAndStatusProperties = (requestQuery) => {
+const hashPriorityAndStatusProperties = (requestQuery) => {
   return (
     requestQuery.priority !== undefined && requestQuery.status !== undefined
   );
@@ -51,7 +51,7 @@ app.get("/todos/", async (request, response) => {
   const { search_q = "", priority, status } = request.query;
 
   switch (true) {
-    case hasPriorityAndStatusProperties(request.query): //if this is true then below query is taken in the code
+    case hashPriorityAndStatusProperties(request.query): //if this is true then below query is taken in the code
       getTodosQuery = `
     SELECT
         *
@@ -62,7 +62,7 @@ app.get("/todos/", async (request, response) => {
         AND status = '${status}'
         AND priority = '${priority}';`;
       break;
-    case hasPriorityProperty(request.query):
+    case hashPriorityProperty(request.query):
       getTodosQuery = `
     SELECT
         *
@@ -72,7 +72,7 @@ app.get("/todos/", async (request, response) => {
         todo LIKE '%${search_q}%'
         AND priority = '${priority}';`;
       break;
-    case hasStatusProperty(request.query):
+    case hashStatusProperty(request.query):
       getTodosQuery = `
     SELECT
         *
